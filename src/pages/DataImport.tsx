@@ -3,10 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Upload, FileText, Users, TrendingUp, CheckCircle, AlertCircle, Download } from 'lucide-react';
 import { toast } from 'sonner';
-import type { Customer, Segment } from '@/types';
+import type { Customer } from '@/types';
 
 interface CSVRow {
   [key: string]: string;
@@ -98,26 +97,26 @@ CUST003,Bob Johnson,bob@example.com,15600,28,2024-11-28,557.14,low,0.92,0.88,0.8
     const isNegativeSentiment = customer.sentiment === 'negative';
 
     if (totalSpent > 10000 && orderCount > 20) {
-      return 'seg-5'; // Luxury Seekers
+      return 'seg-5';
     }
 
     if (churnRisk > 0.7 || isNegativeSentiment) {
-      return 'seg-6'; // At-Risk Customers
+      return 'seg-6';
     }
 
     if (orderCount > 15 && churnRisk < 0.3) {
-      return 'seg-3'; // Brand-Loyal Confident Buyers
+      return 'seg-3';
     }
 
     if (orderCount < 5 && totalSpent < 1000) {
-      return 'seg-4'; // Curious Browsers
+      return 'seg-4';
     }
 
     if (totalSpent < 2000 || isNegativeSentiment) {
-      return 'seg-2'; // Price-Sensitive Anxious Buyers
+      return 'seg-2';
     }
 
-    return 'seg-1'; // Impulsive Emotional Buyers
+    return 'seg-1';
   };
 
   const csvRowToCustomer = (row: CSVRow): Customer => {
@@ -250,284 +249,75 @@ CUST003,Bob Johnson,bob@example.com,15600,28,2024-11-28,557.14,low,0.92,0.88,0.8
     }
   };
 
-  const generateSegmentsManually = () => {
-    toast.success('Segment generation started');
-    setTimeout(() => {
-      toast.success('6 segments generated successfully');
-    }, 2000);
-  };
-
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Data Import & Segment Generation</h1>
+        <h1 className="text-3xl font-bold mb-2">Import Customer Data</h1>
         <p className="text-muted-foreground">
-          Upload customer data and automatically generate psychological segments
+          Upload customer data from CSV files to add new customers to your database
         </p>
       </div>
 
-      <Tabs defaultValue="upload" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 max-w-md">
-          <TabsTrigger value="upload">
-            <Upload className="h-4 w-4 mr-2" />
-            Upload CSV
-          </TabsTrigger>
-          <TabsTrigger value="generate">
-            <TrendingUp className="h-4 w-4 mr-2" />
-            Generate Segments
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="upload" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <Card className="lg:col-span-2">
-              <CardHeader>
-                <CardTitle>Upload Customer Data</CardTitle>
-                <CardDescription>
-                  Import customer data from CSV file. Maximum file size: 5MB
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
-                  <div className="flex flex-col items-center gap-4">
-                    <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
-                      <FileText className="h-8 w-8 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold mb-2">Choose CSV File</h3>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        Upload a CSV file with customer data
-                      </p>
-                    </div>
-                    <input
-                      type="file"
-                      accept=".csv"
-                      onChange={handleFileUpload}
-                      disabled={uploading}
-                      className="hidden"
-                      id="csv-upload"
-                    />
-                    <label htmlFor="csv-upload">
-                      <Button asChild disabled={uploading}>
-                        <span className="cursor-pointer">
-                          <Upload className="h-4 w-4 mr-2" />
-                          {uploading ? 'Uploading...' : 'Select File'}
-                        </span>
-                      </Button>
-                    </label>
-                  </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle>Upload CSV File</CardTitle>
+            <CardDescription>
+              Import customer data from CSV file. Maximum file size: 5MB
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
+              <div className="flex flex-col items-center gap-4">
+                <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <FileText className="h-8 w-8 text-primary" />
                 </div>
-
-                {uploading && (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-sm">
-                      <span>Processing...</span>
-                      <span>{progress}%</span>
-                    </div>
-                    <Progress value={progress} />
-                  </div>
-                )}
-
-                {uploadStats && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <Card>
-                      <CardContent className="pt-6">
-                        <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded bg-primary/10 flex items-center justify-center">
-                            <Users className="h-5 w-5 text-primary" />
-                          </div>
-                          <div>
-                            <p className="text-2xl font-bold">{uploadStats.newCustomers}</p>
-                            <p className="text-sm text-muted-foreground">Customers Imported</p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    <Card>
-                      <CardContent className="pt-6">
-                        <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded bg-success/10 flex items-center justify-center">
-                            <TrendingUp className="h-5 w-5 text-success" />
-                          </div>
-                          <div>
-                            <p className="text-2xl font-bold">{uploadStats.segmentsGenerated}</p>
-                            <p className="text-sm text-muted-foreground">Segments Assigned</p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    <Card>
-                      <CardContent className="pt-6">
-                        <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded bg-success/10 flex items-center justify-center">
-                            <CheckCircle className="h-5 w-5 text-success" />
-                          </div>
-                          <div>
-                            <p className="text-2xl font-bold">{uploadStats.successfulRows}</p>
-                            <p className="text-sm text-muted-foreground">Successful Rows</p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    <Card>
-                      <CardContent className="pt-6">
-                        <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 rounded bg-destructive/10 flex items-center justify-center">
-                            <AlertCircle className="h-5 w-5 text-destructive" />
-                          </div>
-                          <div>
-                            <p className="text-2xl font-bold">{uploadStats.failedRows}</p>
-                            <p className="text-sm text-muted-foreground">Failed Rows</p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                )}
-
-                {errors.length > 0 && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
-                      <p className="font-semibold mb-2">Validation Errors:</p>
-                      <ul className="list-disc list-inside space-y-1 text-sm">
-                        {errors.map((error, index) => (
-                          <li key={index}>{error}</li>
-                        ))}
-                      </ul>
-                      {errors.length === 10 && (
-                        <p className="text-sm mt-2 italic">Showing first 10 errors...</p>
-                      )}
-                    </AlertDescription>
-                  </Alert>
-                )}
-
-                {previewData.length > 0 && (
-                  <div>
-                    <h3 className="text-lg font-semibold mb-3">Data Preview (First 5 Rows)</h3>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
-                        <thead>
-                          <tr className="border-b border-border">
-                            {Object.keys(previewData[0]).slice(0, 5).map((key) => (
-                              <th key={key} className="text-left p-2 font-semibold">
-                                {key}
-                              </th>
-                            ))}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {previewData.map((row, index) => (
-                            <tr key={index} className="border-b border-border/50">
-                              {Object.values(row).slice(0, 5).map((value, i) => (
-                                <td key={i} className="p-2 text-muted-foreground">
-                                  {value}
-                                </td>
-                              ))}
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>CSV Template</CardTitle>
-                  <CardDescription>
-                    Download a template to see the required format
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button onClick={downloadTemplate} variant="outline" className="w-full">
-                    <Download className="h-4 w-4 mr-2" />
-                    Download Template
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">Choose CSV File</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Upload a CSV file with customer data
+                  </p>
+                </div>
+                <input
+                  type="file"
+                  accept=".csv"
+                  onChange={handleFileUpload}
+                  disabled={uploading}
+                  className="hidden"
+                  id="csv-upload"
+                />
+                <label htmlFor="csv-upload">
+                  <Button asChild disabled={uploading}>
+                    <span className="cursor-pointer">
+                      <Upload className="h-4 w-4 mr-2" />
+                      {uploading ? 'Uploading...' : 'Select File'}
+                    </span>
                   </Button>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Required Fields</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-success mt-0.5" />
-                      <span><strong>customer_id</strong> - Unique identifier</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-success mt-0.5" />
-                      <span><strong>name</strong> - Customer name</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-success mt-0.5" />
-                      <span><strong>email</strong> - Valid email address</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-success mt-0.5" />
-                      <span><strong>total_spent</strong> - Total amount spent</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-success mt-0.5" />
-                      <span><strong>order_count</strong> - Number of orders</span>
-                    </li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Optional Fields</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li>• last_order_date</li>
-                    <li>• avg_order_value</li>
-                    <li>• churn_risk (low/medium/high)</li>
-                    <li>• sentiment_score (0-1)</li>
-                    <li>• personality traits (0-1)</li>
-                  </ul>
-                </CardContent>
-              </Card>
+                </label>
+              </div>
             </div>
-          </div>
-        </TabsContent>
 
-        <TabsContent value="generate" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Generate Customer Segments</CardTitle>
-              <CardDescription>
-                Automatically generate psychological segments based on customer data
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <Alert>
-                <TrendingUp className="h-4 w-4" />
-                <AlertDescription>
-                  The system will analyze customer behavior, emotions, and psychological traits to create 6 distinct segments:
-                  Impulsive Buyers, Price-Sensitive, Brand-Loyal, Curious Browsers, Luxury Seekers, and At-Risk Customers.
-                </AlertDescription>
-              </Alert>
+            {uploading && (
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span>Processing...</span>
+                  <span>{progress}%</span>
+                </div>
+                <Progress value={progress} />
+              </div>
+            )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {uploadStats && (
+              <div className="grid grid-cols-2 gap-4">
                 <Card>
                   <CardContent className="pt-6">
-                    <div className="flex items-center gap-3 mb-3">
+                    <div className="flex items-center gap-3">
                       <div className="h-10 w-10 rounded bg-primary/10 flex items-center justify-center">
                         <Users className="h-5 w-5 text-primary" />
                       </div>
                       <div>
-                        <p className="text-2xl font-bold">5,495</p>
-                        <p className="text-sm text-muted-foreground">Total Customers</p>
+                        <p className="text-2xl font-bold">{uploadStats.newCustomers}</p>
+                        <p className="text-sm text-muted-foreground">Customers Imported</p>
                       </div>
                     </div>
                   </CardContent>
@@ -535,13 +325,13 @@ CUST003,Bob Johnson,bob@example.com,15600,28,2024-11-28,557.14,low,0.92,0.88,0.8
 
                 <Card>
                   <CardContent className="pt-6">
-                    <div className="flex items-center gap-3 mb-3">
+                    <div className="flex items-center gap-3">
                       <div className="h-10 w-10 rounded bg-success/10 flex items-center justify-center">
                         <TrendingUp className="h-5 w-5 text-success" />
                       </div>
                       <div>
-                        <p className="text-2xl font-bold">6</p>
-                        <p className="text-sm text-muted-foreground">Segments</p>
+                        <p className="text-2xl font-bold">{uploadStats.segmentsGenerated}</p>
+                        <p className="text-sm text-muted-foreground">Segments Assigned</p>
                       </div>
                     </div>
                   </CardContent>
@@ -549,87 +339,170 @@ CUST003,Bob Johnson,bob@example.com,15600,28,2024-11-28,557.14,low,0.92,0.88,0.8
 
                 <Card>
                   <CardContent className="pt-6">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="h-10 w-10 rounded bg-chart-3/10 flex items-center justify-center">
-                        <CheckCircle className="h-5 w-5 text-chart-3" />
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded bg-success/10 flex items-center justify-center">
+                        <CheckCircle className="h-5 w-5 text-success" />
                       </div>
                       <div>
-                        <p className="text-2xl font-bold">98.5%</p>
-                        <p className="text-sm text-muted-foreground">Accuracy</p>
+                        <p className="text-2xl font-bold">{uploadStats.successfulRows}</p>
+                        <p className="text-sm text-muted-foreground">Successful Rows</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded bg-destructive/10 flex items-center justify-center">
+                        <AlertCircle className="h-5 w-5 text-destructive" />
+                      </div>
+                      <div>
+                        <p className="text-2xl font-bold">{uploadStats.failedRows}</p>
+                        <p className="text-sm text-muted-foreground">Failed Rows</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
               </div>
+            )}
 
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Segmentation Criteria</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <h4 className="font-medium">Behavioral Factors</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1">
-                      <li>• Purchase frequency and recency</li>
-                      <li>• Average order value</li>
-                      <li>• Total spending patterns</li>
-                      <li>• Cart abandonment rate</li>
-                    </ul>
-                  </div>
-                  <div className="space-y-2">
-                    <h4 className="font-medium">Psychological Factors</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1">
-                      <li>• Sentiment analysis scores</li>
-                      <li>• Emotional profile (joy, trust, fear)</li>
-                      <li>• OCEAN personality traits</li>
-                      <li>• Churn risk assessment</li>
-                    </ul>
-                  </div>
+            {errors.length > 0 && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>
+                  <p className="font-semibold mb-2">Validation Errors:</p>
+                  <ul className="list-disc list-inside space-y-1 text-sm">
+                    {errors.map((error, index) => (
+                      <li key={index}>{error}</li>
+                    ))}
+                  </ul>
+                  {errors.length === 10 && (
+                    <p className="text-sm mt-2 italic">Showing first 10 errors...</p>
+                  )}
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {previewData.length > 0 && (
+              <div>
+                <h3 className="text-lg font-semibold mb-3">Data Preview (First 5 Rows)</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-border">
+                        {Object.keys(previewData[0]).slice(0, 5).map((key) => (
+                          <th key={key} className="text-left p-2 font-semibold">
+                            {key}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {previewData.map((row, index) => (
+                        <tr key={index} className="border-b border-border/50">
+                          {Object.values(row).slice(0, 5).map((value, i) => (
+                            <td key={i} className="p-2 text-muted-foreground">
+                              {value}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
+            )}
+          </CardContent>
+        </Card>
 
-              <div className="flex gap-4">
-                <Button onClick={generateSegmentsManually} className="flex-1">
-                  <TrendingUp className="h-4 w-4 mr-2" />
-                  Generate Segments Now
-                </Button>
-                <Button variant="outline">
-                  View Existing Segments
-                </Button>
-              </div>
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>CSV Template</CardTitle>
+              <CardDescription>
+                Download a template to see the required format
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button onClick={downloadTemplate} variant="outline" className="w-full">
+                <Download className="h-4 w-4 mr-2" />
+                Download Template
+              </Button>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Segment Distribution Preview</CardTitle>
+              <CardTitle>Required Fields</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {[
-                  { name: 'Impulsive Emotional Buyers', count: 1245, color: 'bg-primary' },
-                  { name: 'Price-Sensitive Anxious Buyers', count: 892, color: 'bg-chart-4' },
-                  { name: 'Brand-Loyal Confident Buyers', count: 567, color: 'bg-chart-2' },
-                  { name: 'Curious Browsers', count: 2134, color: 'bg-chart-3' },
-                  { name: 'Luxury Seekers', count: 234, color: 'bg-chart-5' },
-                  { name: 'Frustrated At-Risk Customers', count: 423, color: 'bg-destructive' }
-                ].map((segment) => (
-                  <div key={segment.name} className="space-y-2">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="font-medium">{segment.name}</span>
-                      <span className="text-muted-foreground">{segment.count} customers</span>
-                    </div>
-                    <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                      <div
-                        className={`h-full ${segment.color}`}
-                        style={{ width: `${(segment.count / 5495) * 100}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="h-4 w-4 text-success mt-0.5" />
+                  <span><strong>customer_id</strong> - Unique identifier</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="h-4 w-4 text-success mt-0.5" />
+                  <span><strong>name</strong> - Customer name</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="h-4 w-4 text-success mt-0.5" />
+                  <span><strong>email</strong> - Valid email address</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="h-4 w-4 text-success mt-0.5" />
+                  <span><strong>total_spent</strong> - Total amount spent</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="h-4 w-4 text-success mt-0.5" />
+                  <span><strong>order_count</strong> - Number of orders</span>
+                </li>
+              </ul>
             </CardContent>
           </Card>
-        </TabsContent>
-      </Tabs>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Optional Fields</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>• last_order_date</li>
+                <li>• avg_order_value</li>
+                <li>• churn_risk (low/medium/high)</li>
+                <li>• sentiment_score (0-1)</li>
+                <li>• personality traits (0-1)</li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Next Steps</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                After importing customers, you can:
+              </p>
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-start gap-2">
+                  <TrendingUp className="h-4 w-4 text-primary mt-0.5" />
+                  <span>Generate segments from imported data</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <Users className="h-4 w-4 text-primary mt-0.5" />
+                  <span>View customers in the Customers page</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle className="h-4 w-4 text-primary mt-0.5" />
+                  <span>Create targeted offers and campaigns</span>
+                </li>
+              </ul>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }

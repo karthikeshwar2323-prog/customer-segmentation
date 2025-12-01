@@ -6,6 +6,7 @@ import Recommendations from './pages/Recommendations';
 import Offers from './pages/Offers';
 import DynamicPricing from './pages/DynamicPricing';
 import DataImport from './pages/DataImport';
+import SegmentGeneration from './pages/SegmentGeneration';
 import Settings from './pages/Settings';
 import type { ReactNode } from 'react';
 
@@ -56,6 +57,11 @@ const routes: RouteConfig[] = [
     name: 'Data Import',
     path: '/import',
     element: <DataImport />
+  },
+  {
+    name: 'Generate Segments',
+    path: '/generate-segments',
+    element: <SegmentGeneration />
   },
   {
     name: 'Settings',
