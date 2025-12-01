@@ -56,6 +56,33 @@ export interface Segment {
     secondary: string;
   };
   personalityTraits: string[];
+  pricingRule?: PricingRule;
+}
+
+export interface PricingRule {
+  segmentId: string;
+  strategy: 'premium' | 'discount' | 'standard' | 'dynamic' | 'loyalty';
+  priceMultiplier: number;
+  maxDiscount: number;
+  minPrice: number;
+  description: string;
+  conditions: {
+    minOrderValue?: number;
+    maxOrderValue?: number;
+    timeBasedAdjustment?: boolean;
+    inventoryBasedAdjustment?: boolean;
+  };
+}
+
+export interface DynamicPrice {
+  customerId: string;
+  productId: string;
+  basePrice: number;
+  adjustedPrice: number;
+  discount: number;
+  reason: string;
+  segmentId: string;
+  validUntil: string;
 }
 
 export interface PlatformConnection {

@@ -23,7 +23,19 @@ export const mockSegments: Segment[] = [
       dominant: 'Joy',
       secondary: 'Surprise'
     },
-    personalityTraits: ['High Extraversion', 'High Openness', 'Low Conscientiousness']
+    personalityTraits: ['High Extraversion', 'High Openness', 'Low Conscientiousness'],
+    pricingRule: {
+      segmentId: 'seg-1',
+      strategy: 'dynamic',
+      priceMultiplier: 1.05,
+      maxDiscount: 15,
+      minPrice: 0,
+      description: 'Slightly higher prices with frequent flash discounts to create urgency',
+      conditions: {
+        timeBasedAdjustment: true,
+        inventoryBasedAdjustment: false
+      }
+    }
   },
   {
     id: 'seg-2',
@@ -47,7 +59,20 @@ export const mockSegments: Segment[] = [
       dominant: 'Fear',
       secondary: 'Sadness'
     },
-    personalityTraits: ['High Neuroticism', 'High Conscientiousness', 'Low Extraversion']
+    personalityTraits: ['High Neuroticism', 'High Conscientiousness', 'Low Extraversion'],
+    pricingRule: {
+      segmentId: 'seg-2',
+      strategy: 'discount',
+      priceMultiplier: 0.92,
+      maxDiscount: 20,
+      minPrice: 0,
+      description: 'Lower base prices with visible savings to reduce purchase anxiety',
+      conditions: {
+        minOrderValue: 50,
+        timeBasedAdjustment: false,
+        inventoryBasedAdjustment: false
+      }
+    }
   },
   {
     id: 'seg-3',
@@ -71,7 +96,20 @@ export const mockSegments: Segment[] = [
       dominant: 'Joy',
       secondary: 'Surprise'
     },
-    personalityTraits: ['High Agreeableness', 'High Conscientiousness', 'Low Neuroticism']
+    personalityTraits: ['High Agreeableness', 'High Conscientiousness', 'Low Neuroticism'],
+    pricingRule: {
+      segmentId: 'seg-3',
+      strategy: 'loyalty',
+      priceMultiplier: 1.0,
+      maxDiscount: 10,
+      minPrice: 0,
+      description: 'Standard pricing with loyalty rewards and exclusive member benefits',
+      conditions: {
+        minOrderValue: 100,
+        timeBasedAdjustment: false,
+        inventoryBasedAdjustment: false
+      }
+    }
   },
   {
     id: 'seg-4',
@@ -95,7 +133,20 @@ export const mockSegments: Segment[] = [
       dominant: 'Surprise',
       secondary: 'Joy'
     },
-    personalityTraits: ['High Openness', 'Low Conscientiousness', 'Moderate Extraversion']
+    personalityTraits: ['High Openness', 'Low Conscientiousness', 'Moderate Extraversion'],
+    pricingRule: {
+      segmentId: 'seg-4',
+      strategy: 'discount',
+      priceMultiplier: 0.95,
+      maxDiscount: 15,
+      minPrice: 0,
+      description: 'Attractive entry prices with first-purchase incentives to convert browsers',
+      conditions: {
+        minOrderValue: 25,
+        timeBasedAdjustment: false,
+        inventoryBasedAdjustment: false
+      }
+    }
   },
   {
     id: 'seg-5',
@@ -119,7 +170,20 @@ export const mockSegments: Segment[] = [
       dominant: 'Joy',
       secondary: 'Surprise'
     },
-    personalityTraits: ['High Openness', 'Low Neuroticism', 'High Extraversion']
+    personalityTraits: ['High Openness', 'Low Neuroticism', 'High Extraversion'],
+    pricingRule: {
+      segmentId: 'seg-5',
+      strategy: 'premium',
+      priceMultiplier: 1.15,
+      maxDiscount: 5,
+      minPrice: 100,
+      description: 'Premium pricing with exclusive benefits and superior service',
+      conditions: {
+        minOrderValue: 200,
+        timeBasedAdjustment: false,
+        inventoryBasedAdjustment: true
+      }
+    }
   },
   {
     id: 'seg-6',
@@ -143,7 +207,20 @@ export const mockSegments: Segment[] = [
       dominant: 'Anger',
       secondary: 'Sadness'
     },
-    personalityTraits: ['High Neuroticism', 'Low Agreeableness', 'Moderate Conscientiousness']
+    personalityTraits: ['High Neuroticism', 'Low Agreeableness', 'Moderate Conscientiousness'],
+    pricingRule: {
+      segmentId: 'seg-6',
+      strategy: 'discount',
+      priceMultiplier: 0.85,
+      maxDiscount: 30,
+      minPrice: 0,
+      description: 'Aggressive win-back pricing with significant discounts to prevent churn',
+      conditions: {
+        minOrderValue: 30,
+        timeBasedAdjustment: true,
+        inventoryBasedAdjustment: false
+      }
+    }
   }
 ];
 

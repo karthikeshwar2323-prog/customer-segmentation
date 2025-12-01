@@ -10,6 +10,7 @@ A comprehensive AI-powered web application designed for e-commerce businesses to
 - **AI-Powered Analysis**: Automated sentiment analysis, emotion detection, and personality trait prediction
 - **Intelligent Segmentation**: Machine learning-based customer clustering (K-Means, DBSCAN)
 - **Psychological Profiling**: OCEAN personality model implementation for deep customer insights
+- **Dynamic Pricing**: Segment-based personalized pricing strategies to maximize revenue
 - **Personalized Offers**: Create and send psychology-driven offers tailored to each segment
 - **Actionable Recommendations**: Segment-specific marketing strategies and retention tactics
 - **Real-time Analytics**: Comprehensive dashboards with emotional trends and behavioral patterns
@@ -280,6 +281,16 @@ To integrate real AI models:
 - Monitor ROI and customer engagement
 
 **See [OFFERS_GUIDE.md](OFFERS_GUIDE.md) for complete documentation on creating and managing personalized offers.**
+
+### Dynamic Pricing
+- Configure segment-based pricing strategies (premium, discount, loyalty, dynamic)
+- Set price multipliers and discount limits for each segment
+- Calculate personalized prices based on customer psychology
+- Compare prices across segments with the pricing calculator
+- Analyze revenue impact of pricing strategies
+- Implement time-based and inventory-based pricing adjustments
+
+**See [DYNAMIC_PRICING_GUIDE.md](DYNAMIC_PRICING_GUIDE.md) for complete documentation on implementing dynamic pricing.**
 
 ### Settings
 - Connect e-commerce platforms
