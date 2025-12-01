@@ -1,4 +1,4 @@
-# AI-Driven Customer Segmentation Platform
+# Apex Insights - AI Customer Segmentation Platform
 
 A comprehensive AI-powered web application designed for e-commerce businesses to automatically analyze customer behavior, emotions, and psychological traits. The system integrates with major e-commerce platforms, processes customer data using advanced AI models, and generates actionable insights through intelligent segmentation and personalized recommendations.
 

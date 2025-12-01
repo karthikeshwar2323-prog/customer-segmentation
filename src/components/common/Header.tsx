@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Brain, Menu, X } from 'lucide-react';
+import { TrendingUp, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import routes from '@/routes';
@@ -11,15 +11,15 @@ export default function Header() {
   const navigation = routes.filter((route) => route.visible !== false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-              <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center">
-                <Brain className="h-6 w-6 text-primary-foreground" />
+            <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
+              <div className="h-10 w-10 rounded bg-primary flex items-center justify-center netflix-glow">
+                <TrendingUp className="h-6 w-6 text-primary-foreground" />
               </div>
-              <span className="text-xl font-bold">AI Customer Segmentation</span>
+              <span className="text-2xl font-bold tracking-tight gradient-text">APEX INSIGHTS</span>
             </Link>
           </div>
 
@@ -28,10 +28,10 @@ export default function Header() {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                className={`px-4 py-2 text-sm font-medium rounded transition-colors ${
                   location.pathname === item.path
                     ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
                 }`}
               >
                 {item.name}
@@ -53,10 +53,10 @@ export default function Header() {
                       key={item.path}
                       to={item.path}
                       onClick={() => setIsOpen(false)}
-                      className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                      className={`px-4 py-2 text-sm font-medium rounded transition-colors ${
                         location.pathname === item.path
                           ? 'bg-primary text-primary-foreground'
-                          : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
                       }`}
                     >
                       {item.name}
