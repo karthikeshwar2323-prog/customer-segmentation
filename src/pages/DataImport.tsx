@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
-import { Upload, FileText, Users, TrendingUp, CheckCircle, AlertCircle, Download } from 'lucide-react';
+import { Upload, FileText, Users, TrendingUp, CheckCircle, AlertCircle, Download, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import type { Customer } from '@/types';
 
@@ -19,12 +19,24 @@ interface UploadStats {
   segmentsGenerated: number;
 }
 
+interface SegmentDistribution {
+  id: string;
+  name: string;
+  count: number;
+  percentage: number;
+  color: string;
+}
+
 export default function DataImport() {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [uploadStats, setUploadStats] = useState<UploadStats | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const [previewData, setPreviewData] = useState<CSVRow[]>([]);
+  const [uploadedCustomers, setUploadedCustomers] = useState<Customer[]>([]);
+  const [generating, setGenerating] = useState(false);
+  const [segmentProgress, setSegmentProgress] = useState(0);
+  const [segmentDistribution, setSegmentDistribution] = useState<SegmentDistribution[]>([]);
 
   const downloadTemplate = () => {
     const template = `customer_id,name,email,total_spent,order_count,last_order_date,avg_order_value,churn_risk,sentiment_score,personality_openness,personality_conscientiousness,personality_extraversion,personality_agreeableness,personality_neuroticism
@@ -186,6 +198,7 @@ CUST003,Bob Johnson,bob@example.com,15600,28,2024-11-28,557.14,low,0.92,0.88,0.8
     setProgress(0);
     setErrors([]);
     setUploadStats(null);
+    setSegmentDistribution([]);
 
     try {
       const text = await file.text();
@@ -201,7 +214,6 @@ CUST003,Bob Johnson,bob@example.com,15600,28,2024-11-28,557.14,low,0.92,0.88,0.8
 
       const validationErrors: string[] = [];
       const customers: Customer[] = [];
-      const segmentCounts: { [key: string]: number } = {};
 
       rows.forEach((row, index) => {
         const error = validateRow(row);
@@ -211,7 +223,6 @@ CUST003,Bob Johnson,bob@example.com,15600,28,2024-11-28,557.14,low,0.92,0.88,0.8
           try {
             const customer = csvRowToCustomer(row);
             customers.push(customer);
-            segmentCounts[customer.segmentId] = (segmentCounts[customer.segmentId] || 0) + 1;
           } catch (err) {
             validationErrors.push(`Row ${index + 2}: Failed to process customer data`);
           }
@@ -225,9 +236,10 @@ CUST003,Bob Johnson,bob@example.com,15600,28,2024-11-28,557.14,low,0.92,0.88,0.8
         successfulRows: customers.length,
         failedRows: validationErrors.length,
         newCustomers: customers.length,
-        segmentsGenerated: Object.keys(segmentCounts).length
+        segmentsGenerated: 0
       };
 
+      setUploadedCustomers(customers);
       setUploadStats(stats);
       setErrors(validationErrors.slice(0, 10));
       setProgress(100);
@@ -247,6 +259,72 @@ CUST003,Bob Johnson,bob@example.com,15600,28,2024-11-28,557.14,low,0.92,0.88,0.8
       setUploading(false);
       event.target.value = '';
     }
+  };
+
+  const generateSegmentsForUploadedData = async () => {
+    if (uploadedCustomers.length === 0) {
+      toast.error('No customer data to segment');
+      return;
+    }
+
+    setGenerating(true);
+    setSegmentProgress(0);
+    setSegmentDistribution([]);
+
+    toast.info('Starting segment generation for uploaded customers...');
+
+    const steps = [
+      { progress: 20, message: 'Analyzing customer data...' },
+      { progress: 40, message: 'Calculating RFM scores...' },
+      { progress: 60, message: 'Processing emotional profiles...' },
+      { progress: 80, message: 'Applying clustering algorithms...' },
+      { progress: 100, message: 'Finalizing segments...' }
+    ];
+
+    for (const step of steps) {
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setSegmentProgress(step.progress);
+      toast.info(step.message);
+    }
+
+    const segmentMap: { [key: string]: { name: string; color: string; customers: Customer[] } } = {
+      'seg-1': { name: 'Impulsive Emotional Buyers', color: 'bg-primary', customers: [] },
+      'seg-2': { name: 'Price-Sensitive Anxious Buyers', color: 'bg-chart-4', customers: [] },
+      'seg-3': { name: 'Brand-Loyal Confident Buyers', color: 'bg-chart-2', customers: [] },
+      'seg-4': { name: 'Curious Browsers', color: 'bg-chart-3', customers: [] },
+      'seg-5': { name: 'Luxury Seekers', color: 'bg-chart-5', customers: [] },
+      'seg-6': { name: 'At-Risk Customers', color: 'bg-destructive', customers: [] }
+    };
+
+    uploadedCustomers.forEach(customer => {
+      const segmentId = generateSegmentFromCustomer(customer);
+      if (segmentMap[segmentId]) {
+        segmentMap[segmentId].customers.push(customer);
+      }
+    });
+
+    const distribution: SegmentDistribution[] = Object.entries(segmentMap)
+      .map(([id, data]) => ({
+        id,
+        name: data.name,
+        count: data.customers.length,
+        percentage: (data.customers.length / uploadedCustomers.length) * 100,
+        color: data.color
+      }))
+      .filter(seg => seg.count > 0)
+      .sort((a, b) => b.count - a.count);
+
+    setSegmentDistribution(distribution);
+
+    if (uploadStats) {
+      setUploadStats({
+        ...uploadStats,
+        segmentsGenerated: distribution.length
+      });
+    }
+
+    setGenerating(false);
+    toast.success(`Successfully generated ${distribution.length} segments for ${uploadedCustomers.length} customers!`);
   };
 
   return (
@@ -364,6 +442,67 @@ CUST003,Bob Johnson,bob@example.com,15600,28,2024-11-28,557.14,low,0.92,0.88,0.8
                     </div>
                   </CardContent>
                 </Card>
+              </div>
+            )}
+
+            {uploadStats && uploadedCustomers.length > 0 && (
+              <div className="space-y-4">
+                <Alert>
+                  <Sparkles className="h-4 w-4" />
+                  <AlertDescription>
+                    Generate intelligent segments for the {uploadedCustomers.length} uploaded customers using AI analysis.
+                  </AlertDescription>
+                </Alert>
+
+                <Button 
+                  onClick={generateSegmentsForUploadedData} 
+                  disabled={generating}
+                  className="w-full"
+                >
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  {generating ? 'Generating Segments...' : 'Generate Segments for Uploaded Data'}
+                </Button>
+
+                {generating && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span>Generating segments...</span>
+                      <span>{segmentProgress}%</span>
+                    </div>
+                    <Progress value={segmentProgress} />
+                  </div>
+                )}
+
+                {segmentDistribution.length > 0 && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Segment Distribution</CardTitle>
+                      <CardDescription>
+                        Distribution of {uploadedCustomers.length} uploaded customers across {segmentDistribution.length} segments
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        {segmentDistribution.map((segment) => (
+                          <div key={segment.id} className="space-y-2">
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="font-medium">{segment.name}</span>
+                              <span className="text-muted-foreground">
+                                {segment.count} ({segment.percentage.toFixed(1)}%)
+                              </span>
+                            </div>
+                            <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                              <div
+                                className={`h-full ${segment.color}`}
+                                style={{ width: `${segment.percentage}%` }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
               </div>
             )}
 
