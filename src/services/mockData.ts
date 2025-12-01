@@ -1,4 +1,4 @@
-import type { Customer, Segment, PlatformConnection, Recommendation, AnalyticsData } from '@/types';
+import type { Customer, Segment, PlatformConnection, Recommendation, AnalyticsData, Offer, OfferTemplate } from '@/types';
 
 export const mockSegments: Segment[] = [
   {
@@ -374,3 +374,201 @@ export const mockAnalyticsData: AnalyticsData = {
     revenue: seg.customerCount * seg.averageValue
   }))
 };
+
+export const mockOfferTemplates: OfferTemplate[] = [
+  {
+    id: 'template-1',
+    name: '24-Hour Flash Sale',
+    description: 'Create urgency with time-limited offers',
+    type: 'flash_sale',
+    recommendedSegments: ['seg-1'],
+    defaultDiscount: 25,
+    discountType: 'percentage',
+    emailSubject: '⚡ Flash Sale: {discount}% OFF - Only 24 Hours!',
+    emailBody: 'Don\'t miss out! Get {discount}% off your favorite items. This exclusive offer expires in 24 hours. Shop now before it\'s gone!',
+    psychologyTriggers: ['Urgency', 'Scarcity', 'FOMO']
+  },
+  {
+    id: 'template-2',
+    name: 'Price Match Guarantee',
+    description: 'Reduce purchase anxiety with price protection',
+    type: 'discount',
+    recommendedSegments: ['seg-2'],
+    defaultDiscount: 15,
+    discountType: 'percentage',
+    emailSubject: 'Shop with Confidence: Price Match Guarantee + {discount}% OFF',
+    emailBody: 'We guarantee the best prices! Get {discount}% off plus our 30-day price protection. If you find it cheaper elsewhere, we\'ll match it.',
+    psychologyTriggers: ['Trust', 'Security', 'Value']
+  },
+  {
+    id: 'template-3',
+    name: 'VIP Exclusive Access',
+    description: 'Reward loyal customers with exclusive perks',
+    type: 'vip_reward',
+    recommendedSegments: ['seg-3'],
+    defaultDiscount: 20,
+    discountType: 'percentage',
+    emailSubject: 'VIP Exclusive: Early Access + {discount}% OFF',
+    emailBody: 'As a valued VIP member, enjoy {discount}% off and exclusive early access to our new collection. Thank you for your loyalty!',
+    psychologyTriggers: ['Exclusivity', 'Recognition', 'Loyalty']
+  },
+  {
+    id: 'template-4',
+    name: 'First Purchase Welcome',
+    description: 'Convert browsers into buyers',
+    type: 'discount',
+    recommendedSegments: ['seg-4'],
+    defaultDiscount: 10,
+    discountType: 'percentage',
+    emailSubject: 'Welcome! Here\'s {discount}% OFF Your First Order',
+    emailBody: 'Start your journey with us! Get {discount}% off your first purchase plus free shipping. Discover why thousands of customers love us.',
+    psychologyTriggers: ['Welcome', 'Low Risk', 'Trial']
+  },
+  {
+    id: 'template-5',
+    name: 'Premium Bundle Offer',
+    description: 'Curated luxury experiences',
+    type: 'bundle',
+    recommendedSegments: ['seg-5'],
+    defaultDiscount: 30,
+    discountType: 'percentage',
+    emailSubject: 'Exclusive Premium Collection: {discount}% OFF Luxury Bundles',
+    emailBody: 'Indulge in our curated premium collection. Save {discount}% on luxury bundles with complimentary white-glove service and premium packaging.',
+    psychologyTriggers: ['Luxury', 'Quality', 'Prestige']
+  },
+  {
+    id: 'template-6',
+    name: 'We Miss You - Win Back',
+    description: 'Re-engage at-risk customers',
+    type: 'discount',
+    recommendedSegments: ['seg-6'],
+    defaultDiscount: 20,
+    discountType: 'percentage',
+    emailSubject: 'We Miss You! Here\'s {discount}% OFF to Welcome You Back',
+    emailBody: 'We noticed you haven\'t shopped with us lately. We\'d love to have you back! Enjoy {discount}% off your next order as our apology.',
+    psychologyTriggers: ['Apology', 'Reconciliation', 'Value']
+  }
+];
+
+export const mockOffers: Offer[] = [
+  {
+    id: 'offer-1',
+    title: 'Flash Sale: 25% OFF Everything',
+    description: '24-hour flash sale for impulsive buyers',
+    type: 'flash_sale',
+    segmentIds: ['seg-1'],
+    discountValue: 25,
+    discountType: 'percentage',
+    validFrom: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    validUntil: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(),
+    status: 'active',
+    targetCustomers: 1245,
+    sentCount: 1245,
+    openRate: 0.68,
+    conversionRate: 0.34,
+    revenue: 138750,
+    createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    conditions: {
+      maxUses: 1
+    }
+  },
+  {
+    id: 'offer-2',
+    title: 'Price Match + 15% OFF',
+    description: 'Price guarantee offer for price-sensitive customers',
+    type: 'discount',
+    segmentIds: ['seg-2'],
+    discountValue: 15,
+    discountType: 'percentage',
+    validFrom: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    validUntil: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(),
+    status: 'active',
+    targetCustomers: 892,
+    sentCount: 892,
+    openRate: 0.72,
+    conversionRate: 0.28,
+    revenue: 46200,
+    createdAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
+    conditions: {
+      minPurchase: 50
+    }
+  },
+  {
+    id: 'offer-3',
+    title: 'VIP Early Access: 20% OFF New Collection',
+    description: 'Exclusive offer for brand-loyal customers',
+    type: 'vip_reward',
+    segmentIds: ['seg-3'],
+    discountValue: 20,
+    discountType: 'percentage',
+    validFrom: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+    validUntil: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+    status: 'active',
+    targetCustomers: 567,
+    sentCount: 567,
+    openRate: 0.85,
+    conversionRate: 0.52,
+    revenue: 159000,
+    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
+  },
+  {
+    id: 'offer-4',
+    title: 'Welcome Offer: 10% OFF + Free Shipping',
+    description: 'First-time buyer incentive',
+    type: 'free_shipping',
+    segmentIds: ['seg-4'],
+    discountValue: 10,
+    discountType: 'percentage',
+    validFrom: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+    validUntil: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000).toISOString(),
+    status: 'active',
+    targetCustomers: 2134,
+    sentCount: 2134,
+    openRate: 0.45,
+    conversionRate: 0.15,
+    revenue: 144450,
+    createdAt: new Date(Date.now() - 11 * 24 * 60 * 60 * 1000).toISOString(),
+    conditions: {
+      firstTimeOnly: true
+    }
+  },
+  {
+    id: 'offer-5',
+    title: 'Luxury Bundle: 30% OFF Premium Collection',
+    description: 'Curated luxury experience for high-end customers',
+    type: 'bundle',
+    segmentIds: ['seg-5'],
+    discountValue: 30,
+    discountType: 'percentage',
+    validFrom: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+    validUntil: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
+    status: 'scheduled',
+    targetCustomers: 234,
+    sentCount: 0,
+    openRate: 0,
+    conversionRate: 0,
+    revenue: 0,
+    createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+    conditions: {
+      minPurchase: 500
+    }
+  },
+  {
+    id: 'offer-6',
+    title: 'We Miss You: 20% OFF Welcome Back',
+    description: 'Win-back offer for at-risk customers',
+    type: 'discount',
+    segmentIds: ['seg-6'],
+    discountValue: 20,
+    discountType: 'percentage',
+    validFrom: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    validUntil: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+    status: 'active',
+    targetCustomers: 423,
+    sentCount: 423,
+    openRate: 0.58,
+    conversionRate: 0.22,
+    revenue: 22300,
+    createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString()
+  }
+];

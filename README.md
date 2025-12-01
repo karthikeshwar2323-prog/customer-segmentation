@@ -10,6 +10,7 @@ A comprehensive AI-powered web application designed for e-commerce businesses to
 - **AI-Powered Analysis**: Automated sentiment analysis, emotion detection, and personality trait prediction
 - **Intelligent Segmentation**: Machine learning-based customer clustering (K-Means, DBSCAN)
 - **Psychological Profiling**: OCEAN personality model implementation for deep customer insights
+- **Personalized Offers**: Create and send psychology-driven offers tailored to each segment
 - **Actionable Recommendations**: Segment-specific marketing strategies and retention tactics
 - **Real-time Analytics**: Comprehensive dashboards with emotional trends and behavioral patterns
 
@@ -269,6 +270,16 @@ To integrate real AI models:
 - Filter by type (marketing, retention, upsell, cross-sell)
 - See expected impact and priority levels
 - Access detailed action items
+
+### Offers
+- Create personalized offers for specific segments
+- Use psychology-driven templates optimized for each segment
+- Track offer performance (open rate, conversion, revenue)
+- Manage active, scheduled, and draft campaigns
+- Send targeted promotions via email
+- Monitor ROI and customer engagement
+
+**See [OFFERS_GUIDE.md](OFFERS_GUIDE.md) for complete documentation on creating and managing personalized offers.**
 
 ### Settings
 - Connect e-commerce platforms

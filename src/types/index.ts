@@ -102,3 +102,40 @@ export interface AnalyticsData {
     revenue: number;
   }[];
 }
+
+export interface Offer {
+  id: string;
+  title: string;
+  description: string;
+  type: 'discount' | 'flash_sale' | 'vip_reward' | 'free_shipping' | 'bundle' | 'exclusive_access';
+  segmentIds: string[];
+  discountValue: number;
+  discountType: 'percentage' | 'fixed';
+  validFrom: string;
+  validUntil: string;
+  status: 'draft' | 'active' | 'scheduled' | 'expired';
+  targetCustomers: number;
+  sentCount: number;
+  openRate: number;
+  conversionRate: number;
+  revenue: number;
+  createdAt: string;
+  conditions?: {
+    minPurchase?: number;
+    maxUses?: number;
+    firstTimeOnly?: boolean;
+  };
+}
+
+export interface OfferTemplate {
+  id: string;
+  name: string;
+  description: string;
+  type: 'discount' | 'flash_sale' | 'vip_reward' | 'free_shipping' | 'bundle' | 'exclusive_access';
+  recommendedSegments: string[];
+  defaultDiscount: number;
+  discountType: 'percentage' | 'fixed';
+  emailSubject: string;
+  emailBody: string;
+  psychologyTriggers: string[];
+}
