@@ -3,8 +3,7 @@
 ## 1. Application Overview
 **Application Name:** AI Customer Segmentation Platform\n
 **Application Description:** A comprehensive AI-powered web application designed for e-commerce businesses to automatically analyze customer behavior, emotions, and psychological traits. The system integrates with major e-commerce platforms, processes customer data using advanced AI models, and generates actionable insights through intelligent segmentation, personalized recommendations, and dynamic pricing strategies.
-
-**Target Users:** E-commerce business owners, marketing teams, and growth analysts
+\n**Target Users:** E-commerce business owners, marketing teams, and growth analysts
 
 ## 2. Core Functional Modules
 
@@ -14,14 +13,40 @@
   - WooCommerce
   - Amazon Seller API
   - Flipkart Seller API
-- Unified connectEcommerce() function supporting API keys and OAuth authentication\n- Auto-detection of platform type
+- Unified connectEcommerce() function supporting API keys and OAuth authentication
+- Auto-detection of platform type
 - Automatic data fetching:
-  - Customer profile data\n  - Order history
+  - Customer profile data
+  - Order history
   - Browsing behavior
   - Text reviews, feedback, and chat messages
   - Cart abandonment patterns
 
-### 2.2 AI Data Processing & Feature Extraction Module
+### 2.2 CSV File Upload Module
+- **Manual Data Import Interface:**
+  - Drag-and-drop CSV file upload component
+  - File format validation and preview
+  - Support for customer data CSV files containing:
+    - Customer ID
+    - Purchase history
+    - Behavioral data
+    - Review/feedback text
+    - Transaction records
+    - Any other relevant customer attributes
+
+- **CSV Processing Features:**
+  - Automatic column mapping detection
+  - Manual column mapping configuration interface
+  - Data validation and error reporting
+  - Duplicate customer detection and merging options
+  - Batch upload support for multiple CSV files
+\n- **Data Integration:**
+  - Merge uploaded CSV data with existing platform-connected data
+  - Option to use CSV data as standalone source
+  - Data source tracking (platform vs. manual upload)
+  - Upload history and version management
+
+### 2.3 AI Data Processing & Feature Extraction Module
 - Automated data cleaning pipeline
 - Feature extraction engine
 - RFM (Recency, Frequency, Monetary) score computation
@@ -33,33 +58,33 @@
   - BERT/DistilBERT for sentiment analysis
   - RoBERTa for emotion detection
 - Psychological trait prediction based on OCEAN personality model from customer text data
+- Support for processing both API-fetched and CSV-uploaded data
 
-### 2.3 AI Segmentation Engine
+### 2.4 AI Segmentation Engine
 - Machine learning clustering algorithms:
   - K-Means clustering
   - DBSCAN
   - Auto-selection mechanism
 - Multi-dimensional segmentation:
   - RFM-based segmentation
-  - Emotion-based grouping
-  - Personality-based grouping
+  - Emotion-based grouping\n  - Personality-based grouping
 - Automatic generation of 6-10 customer psychological segments, including:
   - Impulsive Emotional Buyers
   - Price-Sensitive Anxious Buyers
-  - Brand-Loyal Confident Buyers
-  - Curious Browsers
-  - Luxury Seekers
-  - Frustrated/At-Risk Customers\n
-### 2.4 Dynamic Pricing Engine
-- **Segment-Based Price Optimization:**
-  - Automatic price adjustment based on customer segment characteristics\n  - Purchase power analysis for price sensitivity calculation
+  - Brand-Loyal Confident Buyers\n  - Curious Browsers\n  - Luxury Seekers
+  - Frustrated/At-Risk Customers
+- Segment generation from CSV-uploaded customer data
+
+### 2.5 Dynamic Pricing Engine\n- **Segment-Based Price Optimization:**
+  - Automatic price adjustment based on customer segment characteristics
+  - Purchase power analysis for price sensitivity calculation
   - Willingness-to-pay prediction per segment
   - Price elasticity modeling
 \n- **Pricing Strategy Configuration:**
-  - Base price definition per product\n  - Segment-specific pricing rules (discount ranges, premium pricing thresholds)
+  - Base price definition per product
+  - Segment-specific pricing rules (discount ranges, premium pricing thresholds)
   - Minimum and maximum price boundaries
-  - Profit margin protection settings
-
+  - Profit margin protection settings\n
 - **Dynamic Price Calculation:**
   - Real-time price generation when customer browses products
   - Factors considered:\n    - Customer segment type
@@ -80,18 +105,18 @@
   - Conversion rate analysis by price point
   - Price acceptance monitoring
   - A/B testing for pricing strategies
-\n### 2.5 Recommendation Engine
-- Segment-specific automated generation of:
-  - Marketing recommendations
+
+### 2.6 Recommendation Engine
+- Segment-specific automated generation of:\n  - Marketing recommendations
   - Personalized offers
   - Retention strategies
   - Upsell and cross-sell predictions
   - Customer Lifetime Value (LTV) prediction
 
-### 2.6 Personalized Offer Delivery System
-- **Offer Generation Mechanism:**\n  - AI-powered offer creation based on customer segment characteristics
-  - Dynamic discount calculation aligned with customer purchase power and behavior patterns
-  - Product recommendation matching customer preferences and browsing history
+### 2.7 Personalized Offer Delivery System
+- **Offer Generation Mechanism:**
+  - AI-powered offer creation based on customer segment characteristics
+  - Dynamic discount calculation aligned with customer purchase power and behavior patterns\n  - Product recommendation matching customer preferences and browsing history
   - Timing optimization based on customer activity patterns
   - Integration with dynamic pricing engine for personalized price offers
 
@@ -99,17 +124,18 @@
   - Email campaigns with personalized content
   - SMS notifications for time-sensitive offers
   - Push notifications through connected e-commerce platforms
-  - In-app messaging for platform-integrated customers
-  - Webhook integration for custom delivery systems
+  - In-app messaging for platform-integrated customers\n  - Webhook integration for custom delivery systems
 
-- **Trigger Mechanisms:**\n  - Automated triggers based on customer behavior (cart abandonment, browsing patterns, purchase anniversaries)
+- **Trigger Mechanisms:**
+  - Automated triggers based on customer behavior (cart abandonment, browsing patterns, purchase anniversaries)
   - Segment-based campaign scheduling
   - Manual campaign creation with AI-suggested content
-  - Real-time event-driven offers (price drops, inventory alerts)\n\n- **Personalization Features:**
+  - Real-time event-driven offers (price drops, inventory alerts)
+
+- **Personalization Features:**
   - Dynamic content adaptation based on emotional state
   - Language and tone adjustment matching personality traits
-  - Product imagery selection aligned with customer preferences
-  - Offer validity periods optimized per segment
+  - Product imagery selection aligned with customer preferences\n  - Offer validity periods optimized per segment
   - Personalized pricing display based on segment\n
 - **Tracking & Optimization:**
   - Offer performance analytics
@@ -117,26 +143,30 @@
   - Conversion rate tracking per segment
   - Automatic offer refinement based on response data
 
-### 2.7 Dashboard & Visualization Module
+### 2.8 Dashboard & Visualization Module
 - Segment visualization interface
 - Emotional heatmaps
 - Customer behavioral charts
 - Trend analysis displays\n- Product affinity predictions
 - API integration settings page
+- CSV upload management interface
+- Data source overview (platform vs. CSV)
 - Offer campaign management interface
 - Delivery performance metrics
 - Dynamic pricing performance dashboard
 - Price variation analytics by segment
 
-### 2.8 Firebase Integration Module
+### 2.9 Firebase Integration Module
 - Firestore collections setup:
   - customers
   - segments
-  - emotions
-  - products
-  - offers\n  - campaigns
+  - emotions\n  - products
+  - offers
+  - campaigns
   - pricing_rules
   - price_history
+  - csv_uploads
+  - data_sources
 - Security rules configuration
 - CRUD API endpoints\n
 ## 3. Technical Architecture
@@ -144,51 +174,57 @@
 ### 3.1 Frontend
 - Framework: React
 - Styling: Tailwind CSS
+- CSV parsing library: PapaParse or similar
 
-### 3.2 Backend\n- API Framework: Python FastAPI or Node.js
+### 3.2 Backend
+- API Framework: Python FastAPI or Node.js
 - AI/ML Models: HuggingFace Transformers + Scikit-learn
 - Email Service: SendGrid or AWS SES integration
-- SMS Service: Twilio or similar provider integration
-- Pricing Engine: Custom algorithm with ML-based optimization
+- SMS Service: Twilio or similar provider integration\n- Pricing Engine: Custom algorithm with ML-based optimization
+- CSV processing: Pandas (Python) or csv-parser (Node.js)
+\n### 3.3 Database
+- Primary Database: Firebase Firestore
 
-### 3.3 Database
-- Primary Database: Firebase Firestore\n
 ### 3.4 AI Models
 - Sentiment Analysis: BERT/DistilBERT
-- Emotion Detection: RoBERTa\n- Clustering: K-Means, DBSCAN
+- Emotion Detection: RoBERTa
+- Clustering: K-Means, DBSCAN
 - Personality Analysis: OCEAN model implementation
 - Price Optimization: Regression models for willingness-to-pay prediction
-
-## 4. Deliverables
+\n## 4. Deliverables
 
 ### 4.1 Source Code
 - Complete folder structure
 - Frontend source code
-- Backend source code
-- AI service modules
+- Backend source code\n- AI service modules
 - API endpoint definitions
 - Offer delivery service modules
 - Dynamic pricing engine modules
+- CSV upload and processing modules
 
 ### 4.2 Configuration Files
 - Firebase configuration
 - Firestore rules file
-- Environment configuration templates\n- Email/SMS service configuration templates
+- Environment configuration templates
+- Email/SMS service configuration templates
 - Pricing rules configuration templates
+- CSV format specification templates
 
 ### 4.3 Documentation
-- Platform connection guide (Shopify/WooCommerce/Amazon/Flipkart)\n- Backend setup and running instructions\n- Frontend setup and running instructions\n- AI services deployment guide
+- Platform connection guide (Shopify/WooCommerce/Amazon/Flipkart)
+- Backend setup and running instructions
+- Frontend setup and running instructions
+- AI services deployment guide
 - API documentation
 - Offer delivery system setup guide
-- Third-party service integration instructions
-- Dynamic pricing system configuration guide
-- Price integration guide for e-commerce platforms
+- Third-party service integration instructions\n- Dynamic pricing system configuration guide\n- Price integration guide for e-commerce platforms\n- CSV upload guide with format specifications
+- Data mapping configuration instructions
 
 ### 4.4 Testing Resources
 - Sample data for instant testing
 - Test scenarios
-- Sample offer templates
-- Sample pricing rules and test cases
+- Sample offer templates\n- Sample pricing rules and test cases
+- Sample CSV files with correct format
 \n## 5. System Capabilities
 
 ### 5.1 Automation Features
@@ -198,7 +234,7 @@
 - Automatic insight generation
 - Automatic personalized offer creation and delivery
 - Automatic campaign performance tracking
-- Automatic dynamic price calculation and adjustment
+- Automatic dynamic price calculation and adjustment\n- Automatic CSV data validation and processing
 
 ### 5.2 Intelligence Features
 - Psychological pattern identification
@@ -211,8 +247,12 @@
 - Intelligent price optimization based on customer segmentation
 - Real-time price personalization
 
-## 6. Design Style
-- Color Scheme: Professional blue tones (#2563EB primary) with data visualization accent colors (green for positive metrics, red for alerts, purple for AI insights, orange for pricing indicators)
+### 5.3 Flexibility Features
+- Multiple data source support (API + CSV)
+- Manual data import capability
+- Custom column mapping
+- Hybrid data integration
+\n## 6. Design Style\n- Color Scheme: Professional blue tones (#2563EB primary) with data visualization accent colors (green for positive metrics, red for alerts, purple for AI insights, orange for pricing indicators)
 - Layout: Dashboard-style card-based layout with modular sections for different analytics views
-- Visual Elements: Modern data visualization charts with smooth animations, clean iconography for segment types, gradient backgrounds for emotional heatmaps, dynamic pricing indicators with visual cues
+- Visual Elements: Modern data visualization charts with smooth animations, clean iconography for segment types, gradient backgrounds for emotional heatmaps, dynamic pricing indicators with visual cues, intuitive file upload interface with drag-and-drop zone
 - Typography: Clear hierarchy with sans-serif fonts optimized for data readability

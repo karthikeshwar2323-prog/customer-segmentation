@@ -5,6 +5,7 @@ import Analytics from './pages/Analytics';
 import Recommendations from './pages/Recommendations';
 import Offers from './pages/Offers';
 import DynamicPricing from './pages/DynamicPricing';
+import DataImport from './pages/DataImport';
 import Settings from './pages/Settings';
 import type { ReactNode } from 'react';
 
@@ -50,6 +51,11 @@ const routes: RouteConfig[] = [
     name: 'Dynamic Pricing',
     path: '/pricing',
     element: <DynamicPricing />
+  },
+  {
+    name: 'Data Import',
+    path: '/import',
+    element: <DataImport />
   },
   {
     name: 'Settings',
