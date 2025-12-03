@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 
 export default function Signup() {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -27,6 +28,16 @@ export default function Signup() {
     }
     if (!/^[a-zA-Z0-9_]+$/.test(value)) {
       return 'Username can only contain letters, numbers, and underscores';
+    }
+    return null;
+  };
+
+  const validateEmail = (value: string): string | null => {
+    if (!value) {
+      return 'Email is required';
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      return 'Please enter a valid email address';
     }
     return null;
   };
@@ -48,6 +59,12 @@ export default function Signup() {
       return;
     }
 
+    const emailError = validateEmail(email);
+    if (emailError) {
+      setError(emailError);
+      return;
+    }
+
     const passwordError = validatePassword(password);
     if (passwordError) {
       setError(passwordError);
@@ -62,7 +79,7 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      await signUp(username, password);
+      await signUp(username, email, password);
       toast.success('Account created successfully!');
       navigate('/');
     } catch (err) {
@@ -112,6 +129,22 @@ export default function Signup() {
               />
               <p className="text-xs text-muted-foreground">
                 3-20 characters, letters, numbers, and underscores only
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="email">Email Address</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="your.email@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={loading}
+                autoComplete="email"
+              />
+              <p className="text-xs text-muted-foreground">
+                Used for account recovery and notifications
               </p>
             </div>
 

@@ -10,7 +10,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
 export default function Login() {
-  const [username, setUsername] = useState('');
+  const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -21,15 +21,15 @@ export default function Login() {
     e.preventDefault();
     setError('');
 
-    if (!username || !password) {
-      setError('Please enter both username and password');
+    if (!emailOrUsername || !password) {
+      setError('Please enter both email/username and password');
       return;
     }
 
     setLoading(true);
 
     try {
-      await signIn(username, password);
+      await signIn(emailOrUsername, password);
       toast.success('Successfully logged in!');
       navigate('/');
     } catch (err) {
@@ -67,13 +67,13 @@ export default function Login() {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
+              <Label htmlFor="emailOrUsername">Email or Username</Label>
               <Input
-                id="username"
+                id="emailOrUsername"
                 type="text"
-                placeholder="Enter your username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter your email or username"
+                value={emailOrUsername}
+                onChange={(e) => setEmailOrUsername(e.target.value)}
                 disabled={loading}
                 autoComplete="username"
               />

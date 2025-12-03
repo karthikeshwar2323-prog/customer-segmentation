@@ -9,6 +9,7 @@
 3. Click **"Create account"** link
 4. Fill in the form:
    - **Username**: Choose a username (e.g., `admin`, `john_doe`)
+   - **Email**: Enter your email address (e.g., `admin@example.com`)
    - **Password**: Create a password (minimum 6 characters)
    - **Confirm Password**: Re-enter your password
 5. Click **"Create Account"**
@@ -34,8 +35,17 @@ When you're done:
 
 ## 🔐 Signing In Again
 
+You can log in with **either** your email or username:
+
+**Option 1: Login with Email**
 1. Go to the login page
-2. Enter your **username** (not email!)
+2. Enter your **email** (e.g., `admin@example.com`)
+3. Enter your **password**
+4. Click **"Sign In"**
+
+**Option 2: Login with Username**
+1. Go to the login page
+2. Enter your **username** (e.g., `admin`)
 3. Enter your **password**
 4. Click **"Sign In"**
 
@@ -45,7 +55,7 @@ When you're done:
 
 Other people can create accounts:
 1. They click **"Create account"** on the login page
-2. They fill in their username and password
+2. They fill in their username, email, and password
 3. They get "User" role (not admin)
 
 **Note**: Only the first person to sign up becomes admin!
@@ -70,7 +80,9 @@ If you're not logged in, you'll be redirected to the login page.
 
 ---
 
-## 📝 Username Rules
+## 📝 Field Requirements
+
+### Username Rules
 
 **Valid**:
 - Letters: `a-z`, `A-Z`
@@ -89,9 +101,24 @@ If you're not logged in, you'll be redirected to the login page.
 - ❌ `john@doe` (special character)
 - ❌ `ab` (too short)
 
----
+### Email Rules
 
-## 🔑 Password Rules
+**Valid Format**:
+- Must contain `@` symbol
+- Must have domain name
+- Standard format: `user@domain.com`
+
+**Examples**:
+- ✅ `admin@example.com`
+- ✅ `john.doe@company.com`
+- ✅ `user123@gmail.com`
+
+**Invalid**:
+- ❌ `notanemail` (no @)
+- ❌ `user@` (no domain)
+- ❌ `user @example.com` (space)
+
+### Password Rules
 
 - **Minimum**: 6 characters
 - **Recommended**: 8+ characters with mix of letters, numbers, symbols
@@ -102,24 +129,28 @@ If you're not logged in, you'll be redirected to the login page.
 
 | Action | How To |
 |--------|--------|
-| **Create Account** | Click "Create account" on login page |
-| **Sign In** | Enter username and password on login page |
+| **Create Account** | Click "Create account" → Fill username, email, password |
+| **Sign In (Email)** | Enter email and password on login page |
+| **Sign In (Username)** | Enter username and password on login page |
 | **Sign Out** | Click "Sign Out" button in header |
 | **Check Role** | Look for "Admin" badge in header |
-| **Access Pages** | Must be logged in |
 
 ---
 
 ## 🆘 Troubleshooting
 
 **Can't sign in?**
-- Check username spelling (case-sensitive)
+- Check email/username spelling (case-sensitive)
 - Verify password is correct
 - Make sure you created an account first
 
 **Username not accepted?**
 - Use only letters, numbers, and underscores
 - Must be 3-20 characters long
+
+**Email not accepted?**
+- Must be valid email format (user@domain.com)
+- Check for typos
 
 **Password not accepted?**
 - Must be at least 6 characters long
@@ -133,6 +164,7 @@ If you're not logged in, you'll be redirected to the login page.
 ## 📚 More Information
 
 For detailed documentation, see:
+- **EMAIL_AUTHENTICATION_UPDATE.md** - Email authentication details
 - **AUTHENTICATION_GUIDE.md** - Complete authentication guide
 - **CSV_SEGMENT_GENERATION_GUIDE.md** - CSV upload and segmentation
 - **SEPARATED_FEATURES.md** - Feature separation details

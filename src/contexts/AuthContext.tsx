@@ -7,8 +7,8 @@ interface AuthContextType {
   user: User | null;
   profile: Profile | null;
   loading: boolean;
-  signIn: (username: string, password: string) => Promise<void>;
-  signUp: (username: string, password: string) => Promise<void>;
+  signIn: (emailOrUsername: string, password: string) => Promise<void>;
+  signUp: (username: string, email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   isAdmin: boolean;
 }
@@ -63,8 +63,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const signIn = async (username: string, password: string) => {
-    const email = `${username}@miaoda.com`;
+  const signIn = async (emailOrUsername: string, password: string) => {
+    let email = emailOrUsername;
+    
+    // If input doesn't contain @, treat it as username and look up email
+    if (!emailOrUsername.includes('@')) {
+      // Try to find user by username
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('email')
+        .eq('username', emailOrUsername)
+        .maybeSingle();
+      
+      if (profiles?.email) {
+        email = profiles.email;
+      } else {
+        throw new Error('User not found');
+      }
+    }
+    
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -72,15 +89,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) throw error;
   };
 
-  const signUp = async (username: string, password: string) => {
+  const signUp = async (username: string, email: string, password: string) => {
     if (!/^[a-zA-Z0-9_]+$/.test(username)) {
       throw new Error('Username can only contain letters, numbers, and underscores');
     }
 
-    const email = `${username}@miaoda.com`;
+    // Validate email format
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      throw new Error('Please enter a valid email address');
+    }
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          username: username,
+        },
+      },
     });
     if (error) throw error;
   };
