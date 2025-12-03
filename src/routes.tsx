@@ -8,6 +8,8 @@ import DynamicPricing from './pages/DynamicPricing';
 import DataImport from './pages/DataImport';
 import SegmentGeneration from './pages/SegmentGeneration';
 import Settings from './pages/Settings';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import type { ReactNode } from 'react';
 
 interface RouteConfig {
@@ -15,6 +17,7 @@ interface RouteConfig {
   path: string;
   element: ReactNode;
   visible?: boolean;
+  public?: boolean;
 }
 
 const routes: RouteConfig[] = [
@@ -67,6 +70,20 @@ const routes: RouteConfig[] = [
     name: 'Settings',
     path: '/settings',
     element: <Settings />
+  },
+  {
+    name: 'Login',
+    path: '/login',
+    element: <Login />,
+    visible: false,
+    public: true
+  },
+  {
+    name: 'Signup',
+    path: '/signup',
+    element: <Signup />,
+    visible: false,
+    public: true
   }
 ];
 

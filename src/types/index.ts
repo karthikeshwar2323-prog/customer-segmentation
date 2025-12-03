@@ -5,6 +5,15 @@ export interface Option {
   withCount?: boolean;
 }
 
+export type UserRole = 'user' | 'admin';
+
+export interface Profile {
+  id: string;
+  username: string;
+  role: UserRole;
+  created_at: string;
+}
+
 export interface Customer {
   id: string;
   name: string;
