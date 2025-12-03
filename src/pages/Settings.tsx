@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Settings as SettingsIcon, RefreshCw, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Settings as SettingsIcon, RefreshCw, CheckCircle, XCircle, AlertCircle, LogOut, User, Shield, Mail } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,7 +8,9 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
 import { dataService } from '@/services/dataService';
 import type { PlatformConnection } from '@/types';
 
@@ -15,6 +18,9 @@ export default function Settings() {
   const [loading, setLoading] = useState(true);
   const [connections, setConnections] = useState<PlatformConnection[]>([]);
   const [syncing, setSyncing] = useState<string | null>(null);
+  const [loggingOut, setLoggingOut] = useState(false);
+  const { user, profile, signOut, isAdmin } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadConnections = async () => {
@@ -46,6 +52,20 @@ export default function Settings() {
       toast.error('Failed to sync platform data');
     } finally {
       setSyncing(null);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      setLoggingOut(true);
+      await signOut();
+      toast.success('Successfully logged out');
+      navigate('/login');
+    } catch (error) {
+      console.error('Failed to logout:', error);
+      toast.error('Failed to logout. Please try again.');
+    } finally {
+      setLoggingOut(false);
     }
   };
 
@@ -239,6 +259,78 @@ export default function Settings() {
               Automatic synchronization runs every 6 hours to keep your customer data up to date. 
               You can also manually sync at any time using the "Sync Now" button.
             </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <User className="h-5 w-5" />
+            Account Settings
+          </CardTitle>
+          <CardDescription>Manage your account information and preferences</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label className="text-xs text-muted-foreground">Username</Label>
+                <div className="flex items-center gap-2">
+                  <User className="h-4 w-4 text-muted-foreground" />
+                  <p className="font-medium">{profile?.username || 'N/A'}</p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs text-muted-foreground">Email</Label>
+                <div className="flex items-center gap-2">
+                  <Mail className="h-4 w-4 text-muted-foreground" />
+                  <p className="font-medium">{profile?.email || user?.email || 'N/A'}</p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs text-muted-foreground">Role</Label>
+                <div className="flex items-center gap-2">
+                  <Shield className="h-4 w-4 text-muted-foreground" />
+                  <Badge variant={isAdmin ? 'default' : 'secondary'}>
+                    {isAdmin ? 'Admin' : 'User'}
+                  </Badge>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs text-muted-foreground">User ID</Label>
+                <p className="font-mono text-xs text-muted-foreground truncate">
+                  {user?.id || 'N/A'}
+                </p>
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-semibold mb-2">Session Management</h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Sign out of your account to end your current session. You'll need to log in again to access the platform.
+                </p>
+                <Alert>
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>
+                    Make sure to save any unsaved work before logging out. Your session will be terminated immediately.
+                  </AlertDescription>
+                </Alert>
+              </div>
+
+              <Button
+                variant="destructive"
+                onClick={handleLogout}
+                disabled={loggingOut}
+                className="w-full md:w-auto"
+              >
+                <LogOut className={`h-4 w-4 mr-2 ${loggingOut ? 'animate-spin' : ''}`} />
+                {loggingOut ? 'Logging out...' : 'Logout from Account'}
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
