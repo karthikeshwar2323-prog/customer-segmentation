@@ -1,3 +1,7 @@
+# Welcome to Your Miaoda Project
+Miaoda Application Link URL
+    URL:https://medo.dev/projects/app-7xo3g02uw3k1
+
 # Apex Insights - AI Customer Segmentation Platform
 
 A comprehensive AI-powered web application designed for e-commerce businesses to automatically analyze customer behavior, emotions, and psychological traits. The system integrates with major e-commerce platforms, processes customer data using advanced AI models, and generates actionable insights through intelligent segmentation and personalized recommendations.
@@ -335,3 +339,5 @@ For technical support or questions:
 ---
 
 **Note**: This is a demonstration version with mock data. For production use, integrate with real e-commerce platforms and AI services as described in the integration guide.
+#   c u s t o m e r - s e g m e n t a t i o n  
+ 
