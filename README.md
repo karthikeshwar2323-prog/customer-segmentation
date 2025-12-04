@@ -340,4 +340,5 @@ For technical support or questions:
 
 **Note**: This is a demonstration version with mock data. For production use, integrate with real e-commerce platforms and AI services as described in the integration guide.
 #   c u s t o m e r - s e g m e n t a t i o n  
+ #   c u s t o m e r - s e g m e n t a t i o n  
  
